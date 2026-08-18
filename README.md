@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Canam Facility Services Ltd
 
-## Getting Started
+Full-stack website and MongoDB CMS built with Next.js App Router, strict TypeScript, Tailwind CSS, Mongoose, GSAP/ScrollTrigger, Lenis, Framer Motion, React Hook Form, and Zod.
 
-First, run the development server:
+## Setup
+
+Requirements: Node.js 20.9+, npm, and MongoDB Community Server. MongoDB Compass is optional and works as the database viewer.
 
 ```bash
+npm install
+# Copy .env.example to .env and replace its password/secret
+npm run seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start MongoDB before seeding. On Windows this is normally the `MongoDB` service. The default URI uses the Compass-visible database `canam_facility`. Visit `http://localhost:3000`; admin login is at `/admin/login`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The seed is idempotent and updates known records without duplicating them. The admin password is bcrypt-hashed. Use a password of at least 12 characters and a long random `AUTH_SECRET`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Validation and production
 
-## Learn More
+```bash
+npm run lint
+npm run typecheck
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+Public routes: `/`, `/about`, `/services`, `/services/[slug]`, `/testimonials`, `/faqs`, `/contact`, `/booking`, `/privacy-policy`, and `/terms`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Admin modules: dashboard, Pages, Services, Gallery, Testimonials, FAQs, Pricing, Blog, Inquiries, Bookings, and Settings under `/admin`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contact and booking forms persist to MongoDB; they do not claim to send email. Mutation endpoints validate data, use honeypots and basic in-process rate limiting, and admin APIs require a signed HTTP-only session cookie.
 
-## Deploy on Vercel
+## Upload storage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+CMS uploads are stored under `public/uploads/` in the `pages`, `services`, `gallery`, `testimonials`, `blogs`, and `settings` folders. Handlers allow approved image MIME types, normalize extensions, generate collision-safe names, enforce an 8 MB limit, and prevent path traversal.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Deployment requirement:** local-disk uploads require a persistent Node/VPS filesystem or mounted persistent volume. They are not durable on an ephemeral serverless filesystem. This implementation intentionally does not use Cloudinary, S3, Firebase, or another hosted provider.
+
+Back up both MongoDB and `public/uploads`:
+
+```bash
+mongodump --uri="mongodb://127.0.0.1:27017/canam_facility" --out=./backup/mongodb
+```
+
+Restore MongoDB with `mongorestore` and copy uploaded files back to the same paths.
+
+## Content notes
+
+- Seed content uses curated Unsplash photography for fleet, commercial, and residential cleaning visuals. Replace images in the CMS with your own licensed photography for production.
+- New published services automatically receive dynamic routes.
+- Sample testimonial content is unpublished until replaced with verified customer material.
+- Pricing records are unpublished and global `showPricing` defaults to false.
+- Privacy and Terms are starter text requiring owner/legal review before production.
