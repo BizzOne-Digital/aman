@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, Sparkles } from "lucide-react";
+import { TestimonialCarousel } from "@/components/public/TestimonialCarousel";
 import { getFaqs, getGallery, getServices, getTestimonials } from "@/lib/content";
 import type { PageSection } from "@/types/cms";
 import { FaqAccordion } from "@/components/public/FaqAccordion";
@@ -149,15 +150,7 @@ export async function SectionRenderer({
         <div className="shell">
           <HeaderBlock section={section} />
           {testimonials.length ? (
-            <div className="testimonial-grid">
-              {testimonials.map((item) => (
-                <blockquote key={item._id ?? item.quote}>
-                  {item.serviceLabel && <span className="testimonial-label">{item.serviceLabel}</span>}
-                  <p>“{item.quote}”</p>
-                  <footer>{item.clientName}{item.company && ` — ${item.company}`}</footer>
-                </blockquote>
-              ))}
-            </div>
+            <TestimonialCarousel items={testimonials} />
           ) : (
             <div className="empty-public">Verified customer stories will appear here soon.</div>
           )}
@@ -222,7 +215,16 @@ export async function SectionRenderer({
     <section className={`section grid-section ${theme}`}>
       <div className="shell">
         <HeaderBlock section={section} />
-        <div className={`content-grid ${section.type === "process" ? "process-grid" : ""}`}>
+        <div
+          className={`content-grid ${section.type === "process" ? "process-grid" : ""} ${
+            section.type === "featureGrid" && section.items?.length ? "feature-grid" : ""
+          }`}
+          style={
+            section.type === "featureGrid" && section.items?.length
+              ? ({ "--feature-cols": section.items.length } as React.CSSProperties)
+              : undefined
+          }
+        >
           {section.items?.map((item) => (
             <article key={item.title} data-reveal>
               <span className="item-line" />

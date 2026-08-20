@@ -1,6 +1,7 @@
 import { createHash } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { connectDb } from "@/lib/db";
+import { sendBookingNotification } from "@/lib/mail";
 import { bookingSchema, rateLimit } from "@/lib/validation";
 import { BookingRequest } from "@/models";
 
@@ -18,6 +19,11 @@ export async function POST(request: NextRequest) {
     const { website, ...safe } = parsed.data;
     if (website) return NextResponse.json({ ok: true }, { status: 201 });
     await BookingRequest.create({ ...safe, ipHash: createHash("sha256").update(ip).digest("hex") });
+    try {
+      await sendBookingNotification(safe);
+    } catch (error) {
+      console.error("Booking notification email failed", error);
+    }
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (error) {
     console.error("Booking creation failed", error);

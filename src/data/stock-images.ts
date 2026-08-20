@@ -2,9 +2,9 @@ const q = "q=85&auto=format&fit=crop";
 
 export const stockImages: Record<string, string> = {
   hero: `https://images.unsplash.com/photo-1628177142896-93e36e4e3a50?w=1600&${q}`,
-  fleet: `https://images.unsplash.com/photo-1601584115917-04f7ece2caa4?w=1200&${q}`,
-  "fleet-hero": `https://images.unsplash.com/photo-1519003729901-82e5142941fd?w=1600&${q}`,
-  "fleet-detail": `https://images.unsplash.com/photo-1507136564562-da9348e95f38?w=1200&${q}`,
+  fleet: "/images/fleet-cleaning.png",
+  "fleet-hero": "/images/fleet-cleaning.png",
+  "fleet-detail": "/images/fleet-cleaning.png",
   "fleet-bus": `https://images.unsplash.com/photo-1570125909232-e295129d77fd?w=1200&${q}`,
   "fleet-van": `https://images.unsplash.com/photo-1568660548247-6036b27cfcf6?w=1200&${q}`,
   commercial: `https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&${q}`,

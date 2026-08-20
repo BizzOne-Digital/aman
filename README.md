@@ -30,7 +30,7 @@ Public routes: `/`, `/about`, `/services`, `/services/[slug]`, `/testimonials`, 
 
 Admin modules: dashboard, Pages, Services, Gallery, Testimonials, FAQs, Pricing, Blog, Inquiries, Bookings, and Settings under `/admin`.
 
-Contact and booking forms persist to MongoDB; they do not claim to send email. Mutation endpoints validate data, use honeypots and basic in-process rate limiting, and admin APIs require a signed HTTP-only session cookie.
+Contact and booking forms persist to MongoDB and send notification email when SMTP is configured in `.env`. The public site continues to display `info@canamfacility.ca`; form notifications are delivered to `NOTIFY_EMAIL` (typically the Gmail inbox used for SMTP). Mutation endpoints validate data, use honeypots and basic in-process rate limiting, and admin APIs require a signed HTTP-only session cookie.
 
 ## Upload storage
 
