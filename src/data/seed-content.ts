@@ -92,6 +92,7 @@ export const defaultServices: ServiceData[] = [
         heading: "Clean vehicles make a stronger first impression.",
         body: "From a single personal car to buses, trucks, and vans, we match the cleaning scope to the vehicle and its use. Choose a routine refresh or a deeper reset.",
         primaryMedia: media("fleet-detail", "Technician polishing a white semi-truck during fleet cleaning"),
+        media: [media("fleet-interior", "Professional interior steering wheel cleaning")],
         items: [
           { title: "Interior", text: "Vacuuming, touchpoint cleaning, and deep-clean options." },
           { title: "Exterior", text: "Outside washing for a road-ready presentation." },
@@ -262,7 +263,8 @@ const homeSections: PageSection[] = [
     eyebrow: "Why Canam",
     heading: "Built to move between worlds.",
     body: "A fleet has different pressures than a restaurant. A warehouse has different rhythms than a home. Canam brings a practical, responsive approach to every environment.",
-    primaryMedia: media("partner", "Professional cleaner working in a modern facility"),
+    primaryMedia: media("partner", "Canam cleaners serving fleet, commercial, warehouse, and residential environments"),
+    media: [media("home-partner-accent", "Technician polishing a white semi-truck during fleet cleaning")],
     primaryCta: { label: "Talk to our team", href: "/contact" },
     theme: "ice",
     visible: true,
